@@ -1,0 +1,20 @@
+<a href="/"><strong>Voltar</strong></a>
+
+<h2>Seu carrinho de compras:</h2>
+
+{{#each produtos}}
+<div class="cart-session">
+    {{this.nome}}
+     <h3>R$ {{this.preco}}</h3> 
+    <img src="/img/{{this.img}}" alt="" width="120px">
+
+    <form action="/products/destroy" method="POST">
+    <input type="hidden" name="id" value="{{this.id}}">
+    <input type="submit" value="Excluir">
+    <i class="bi bi-trash"></i>
+    </form>
+</div>
+
+{{/each}}
+
+<a href="/"><button class="finish-buy">Finalizar compra</button></a>

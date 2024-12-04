@@ -1,0 +1,28 @@
+<div class="dashboard">
+    <div class="title-container">
+        <h2>Dashboard de produtos</h2>
+        <a href="/products/add" class="btn"> Cadastrar produtos:</a>
+    </div>
+    <ul>
+        {{#each produtos}}
+            <li>
+                <span class="label"> {{this.nome}} - R$ {{this.preco}}</span>
+                <img src="/img/{{this.image}}" alt="{{this.title}}" width="50" height="50">
+                <span class="actions">
+                    <a href="/products/edit/{{this.id}}" class="btn"> Editar produtos</a>
+                    <form action="/products/remove" method="POST">
+                        <input type="hidden" name="id" value="{{this.id}}">
+                        <input type="submit" value="Excluir">
+                    </form>
+                </span>
+
+            </li>
+        {{/each}}
+    </ul>
+    {{#if emptyProducts}}
+        <p>Ainda não há nenhum produto cadastrado!
+            comece a cadastrar <a href="/products/add">aqui!</a>
+        </p>
+
+    {{/if}}
+</div>

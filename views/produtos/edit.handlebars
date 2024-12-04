@@ -1,0 +1,18 @@
+<div class="tought-form-container">
+    <a href="/products/dashboard"> Voltar </a>
+    <h1>Editar produto:</h1>
+
+    <form action="/products/edit" method="POST">
+        <div class="form-control">
+            <input type="hidden" name="id" value="{{produto.id}}">
+            <label for="title">Produto:</label>
+            <input type="text" name="nome" 
+            placeholder="Escreva seu produto" value="{{produto.nome}}">
+            <input type="hidden" name="preco" value="{{produto.preco}}">
+            <label for="title">preço:</label>
+            <input type="text" name="preco"
+            placeholder="Escreva seu preço:" value="{{produto.preco}}">
+            <input type="submit" value="Editar produto">
+        </div>
+    </form>
+</div>

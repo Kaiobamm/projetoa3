@@ -1,0 +1,51 @@
+<div class="produto-container">
+    {{#each produtos}}
+    <div class="card">
+    <div class="image">
+
+    <h2>{{this.nome}}</h2>
+    <img src="/img/{{this.img}}" alt="" width="150px">
+
+    </div>
+
+    <h3>R$ {{this.preco}}</h3>
+
+    <form action="/products/cart" method="POST">
+
+    <input type="hidden" name="nome" value="{{this.nome}}">
+    <input type="hidden" name="preco" value="{{this.preco}}">
+    <input type="hidden" name="img" value="{{this.img}}">
+    <input type="hidden" name="UserId" value="{{../userId}}">
+    
+    <i class="bi bi-cart"></i><input class="add-cart" type="submit" value="Adicionar ao carrinho">
+    </form>
+
+    
+    </div>
+
+    
+{{/each}}
+</div>
+
+    <div class="pagination">
+      <button class="button" id="startBtn" disabled>
+      </button>
+      <button class="button prevNext" id="prev" disabled>
+        <i class="fa-solid fa-angle-left"></i>
+      </button>
+      <div class="links">
+        <a href="#" class="link active">1</a>
+        <a href="#" class="link">2</a>
+        <a href="#" class="link">3</a>
+        <a href="#" class="link">4</a>
+        <a href="#" class="link">5</a>
+      </div>
+      <button class="button prevNext" id="next">
+        <i class="fa-solid fa-angle-right"></i>
+      </button>
+      <button class="button" id="endBtn">
+        <i class="fa-solid fa-angles-right"></i>
+      </button>
+    </div>
+
+

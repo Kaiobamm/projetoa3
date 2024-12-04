@@ -1,0 +1,23 @@
+<div class="tought-form-container">
+    <a href="/products/dashboard"> Voltar </a>
+    <h1>Criando um produto:</h1>
+
+    <form action="/products/add" method="POST">
+        <div class="form-control">
+            <label for="nome">Produto:</label>
+            <input type="text" name="nome" 
+            placeholder="Digite o seu produto">
+        </div>
+        <div class="form-control">
+            <label for="preco">Valor do produto:</label>
+            <input type="number" name="preco" 
+            placeholder="Digite o valor do produto">
+        </div>
+        <div class="form-control">
+            <label for="img">Imagem do produto:</label>
+            <input type="text" name="img" 
+            accept="image/*">
+        </div>
+        <input type="submit" value="Criar produto">
+    </form>
+</div>

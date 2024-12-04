@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <title>AFC</title>
+</head>
+<body>
+
+<div class="search-bar">
+    <form action="/" method="GET">
+        <input id="search" type="text" name="search" 
+        placeholder="Está procurando algum produto?" onkeyup="search()">
+        <i class="bi bi-search"></i>
+    </form>
+</div>
+
+    <div class="order-container">
+        <span>Ordernar por:</span>
+
+        <form action="/" method="GET">
+            <input type="hidden" name="search" value="{{this.search}}">
+            <input type="hidden" name="order" value="new">
+            <button type="submit"><i class="bi bi-arrow-up"></i></button>
+        </form>
+
+        <form action="/" method="GET">
+            <input type="hidden" name="search" value="{{this.search}}">
+            <input type="hidden" name="order" value="old">
+            <button type="submit"><i class="bi bi-arrow-down"></i></button>
+        </form>
+
+        <a href="/">Limpar</a>  
+    </div>
+
+    <nav id="navbar">
+        <a href="/" id="logo">
+            <img src="/img/img2.jpg">
+
+        <ul>
+
+                <li><a href="/">Produtos</a></li>
+                {{#if session.userid}}
+                {{#if session.isSupplier}}
+                <li><a href="/products/dashboard">Dashboard</a></li>
+                {{/if}}
+                <li><a href="/logout">Sair</a></li>
+                <li><a href="/products/cart"><i class="bi bi-cart"></i></a></li>
+                {{else}}
+                <li><a href="/login">Entrar</a></li>
+                <li><a href="/register">Registrar</a></li>
+                
+                {{/if}}
+        </ul>
+    </nav>
+    <div class="container">
+        {{#if messages.message}}
+        <div class="message">
+            {{messages.message}}
+        </div>
+            
+        {{/if}}
+         {{{body}}}
+    </div>
+
+<footer>
+    <p>
+        <span> Produtos </span>
+        &copy; 2024
+    </p>
+</footer>
+</body>
+
+</html>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const startBtn = document.querySelector("#startBtn"),
+          endBtn = document.querySelector("#endBtn"),
+          prevNext = document.querySelectorAll(".prevNext"),
+          numbers = document.querySelectorAll(".link"),
+          contentDiv = document.querySelector("#content"); // Adicione um contêiner para o conteúdo
+
+    let currentStep = 0;
+
+    const updateBtn = () => {
+      startBtn.disabled = (currentStep === 0);
+      prevNext[0].disabled = (currentStep === 0);
+      endBtn.disabled = (currentStep === numbers.length - 1);
+      prevNext[1].disabled = (currentStep === numbers.length - 1);
+    };
+
+    const fetchPageData = (page) => {
+      fetch(`/data?page=${page}`)
+        .then(response => response.json())
+        .then(data => {
+          contentDiv.innerHTML = data.html; // Atualiza o conteúdo com a resposta do servidor
+        })
+        .catch(error => console.error('Erro ao buscar dados:', error));
+    };
+
+    const updatePage = (page) => {
+      currentStep = page;
+      document.querySelector(".active").classList.remove("active");
+      numbers[currentStep].classList.add("active");
+      updateBtn();
+      fetchPageData(currentStep); // Atualiza o conteúdo da página
+    };
+
+    numbers.forEach((number, numIndex) => {
+      number.addEventListener("click", (e) => {
+        e.preventDefault();
+        updatePage(numIndex);
+      });
+    });
+
+    prevNext.forEach((button) => {
+      button.addEventListener("click", (e) => {
+        if (e.target.id === "next" && currentStep < numbers.length - 1) {
+          updatePage(currentStep + 1);
+        } else if (e.target.id === "prev" && currentStep > 0) {
+          updatePage(currentStep - 1);
+        }
+      });
+    });
+
+    startBtn.addEventListener("click", () => {
+      updatePage(0);
+    });
+
+    endBtn.addEventListener("click", () => {
+      updatePage(numbers.length - 1);
+    });
+
+    // Inicializa a paginação
+    updateBtn();
+    fetchPageData(currentStep); // Carrega dados da primeira página
+  });
+</script>
